@@ -9,6 +9,8 @@ public class TestBase {
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
         DriverFactory.initDriver();
+        // საიტზე გადასვლა ყოველი ტესტის წინ
+        DriverFactory.getDriver().get("https://automationexercise.com");
     }
 
     @AfterMethod(alwaysRun = true)
