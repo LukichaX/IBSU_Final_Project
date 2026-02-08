@@ -6,15 +6,19 @@ import org.testng.annotations.BeforeMethod;
 
 public class TestBase {
 
-    @BeforeMethod(alwaysRun = true)
+    // ეს გაეშვება ავტომატურად ყოველი @Test-ის წინ
+    @BeforeMethod
     public void setUp() {
+        // 1. დრაივერის ინიციალიზაცია
         DriverFactory.initDriver();
-        // საიტზე გადასვლა ყოველი ტესტის წინ
+        // 2. საიტზე გადასვლა (რადგან ყველა ტესტი ამ საიტზეა)
         DriverFactory.getDriver().get("https://automationexercise.com");
     }
 
-    @AfterMethod(alwaysRun = true)
+    // ეს გაეშვება ავტომატურად ყოველი @Test-ის შემდეგ (სულერთია ტესტი ჩაიშალა თუ არა)
+    @AfterMethod
     public void tearDown() {
+        // ბრაუზერის დახურვა
         DriverFactory.quitDriver();
     }
 }

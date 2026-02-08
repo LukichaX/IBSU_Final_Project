@@ -1,16 +1,21 @@
 package com.ibsu.edu.ge.ui.pages;
 
-import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class HomePage extends BasePage {
 
-    @FindBy(css = "div[id='slider-carousel']")
-    private WebElement mainSlider;
+    // ძველი, მოძრავი სლაიდერის მაგივრად, ვეძებთ ლოგოს
+    // ეს 100%-ით სულ ჩანს და არ მოძრაობს
+    @FindBy(css = "img[alt='Website for automation practice']")
+    private WebElement homeLogo;
 
-    @Step("მთავარი გვერდის ვიზუალურად შემოწმება")
+    // ან "Home" ღილაკი, რომელიც სტაფილოსფერია (active)
+    @FindBy(xpath = "//a[@style='color: orange;']")
+    private WebElement activeHomeBtn;
+
     public boolean isHomePageVisible() {
-        return isDisplayed(mainSlider);
+        // ვამოწმებთ ლოგოს - ყველაზე საიმედოა
+        return isDisplayed(homeLogo);
     }
 }

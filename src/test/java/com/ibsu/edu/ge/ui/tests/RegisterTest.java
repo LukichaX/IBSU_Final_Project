@@ -11,32 +11,43 @@ import java.util.UUID;
 
 @Epic("User Management")
 @Feature("Registration")
-public class RegisterTest extends TestBase {
+public class RegisterTest extends TestBase { // აუცილებელია extends TestBase
 
     @Test(description = "Test Case 1: Register User")
     @Severity(SeverityLevel.CRITICAL)
     public void registerUserTest() {
+        // ინიციალიზაცია
         HomePage homePage = new HomePage();
         LoginPage loginPage = new LoginPage();
         RegisterPage registerPage = new RegisterPage();
 
+        // 1. მთავარი გვერდის შემოწმება (საიტი უკვე გახსნილია TestBase-ის მიერ)
         Assert.assertTrue(homePage.isHomePageVisible(), "Home page not visible");
+
+        // 2. Signup-ზე გადასვლა
         loginPage.navigateToLogin();
-        Assert.assertTrue(registerPage.isSignupHeaderVisible(), "Signup header not visible");
+        Assert.assertTrue(loginPage.isSignupHeaderVisible(), "Signup header not visible");
 
-        String randomEmail = "ibsu_auto_" + UUID.randomUUID().toString().substring(0, 5) + "@test.com";
-        registerPage.startSignup("IBSU Student", randomEmail);
+        // 3. მონაცემების შეყვანა
+        String randomEmail = "ibsu_" + UUID.randomUUID().toString().substring(0, 5) + "@test.com";
+        registerPage.startSignup("Luka", randomEmail);
 
-        Assert.assertTrue(registerPage.isAccountInfoHeaderVisible());
-        registerPage.fillAllDetails("password123", "Luka", "Khirdaev");
+        // 4. დეტალების შევსება
+        Assert.assertTrue(registerPage.isAccountInfoHeaderVisible(), "Account info header not visible");
+        registerPage.fillAllDetails("pass123", "Luka", "Khirdaev");
 
+        // 5. შექმნის დადასტურება
         Assert.assertEquals(registerPage.getAccountCreatedMessage(), "ACCOUNT CREATED!");
-        registerPage.clickContinue();
+        registerPage.clickContinue(); // აქ უკვე გვაქვს ანტი-რეკლამა ლოგიკა
 
-        Assert.assertTrue(loginPage.isLoggedInAsUserVisible(), "'Logged in as...' text not visible");
+        // 6. ლოგინის დადასტურება
+        Assert.assertTrue(loginPage.isLoggedInAsUserVisible(), "Logged in text not visible");
 
+        // 7. წაშლა
         registerPage.deleteAccount();
         Assert.assertEquals(registerPage.getAccountDeletedMessage(), "ACCOUNT DELETED!");
         registerPage.clickContinue();
+
+        // ბრაუზერის დახურვა არ გვჭირდება, TestBase @AfterMethod იზამს ამას
     }
 }

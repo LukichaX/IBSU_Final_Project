@@ -7,19 +7,23 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import java.time.Duration;
 
 public class DriverFactory {
-    // ThreadLocal უზრუნველყოფს, რომ ყოველ ტესტს თავისი პირადი ბრაუზერი ჰქონდეს
+
     private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     public static void initDriver() {
         if (driver.get() == null) {
             ChromeOptions options = new ChromeOptions();
+
+            // --- სტაბილურობის გარანტები ---
+             // დიდი ეკრანი
             options.addArguments("--start-maximized");
+            options.addArguments("--disable-popup-blocking");
+            options.addArguments("--disable-notifications");
             options.addArguments("--remote-allow-origins=*");
-            // options.addArguments("--headless"); // თუ არ გინდა ბრაუზერის გახსნა დაინახო
 
             WebDriver localDriver = new ChromeDriver(options);
 
-            // ლოდინის დროები
+            // დროები (ოდნავ გავზარდოთ, რომ ნელ ინტერნეტზე არ გავარდეს)
             localDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
             localDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
 
@@ -34,7 +38,7 @@ public class DriverFactory {
     public static void quitDriver() {
         if (driver.get() != null) {
             driver.get().quit();
-            driver.remove(); // ასუფთავებს მეხსიერებას
+            driver.remove();
         }
     }
 }
