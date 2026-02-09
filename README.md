@@ -19,8 +19,8 @@ We followed a modular approach to ensure the UI and API layers were developed co
 | Contributor | Role | Responsibilities |
 | :--- | :--- | :--- |
 | **Luka Khirdaevi** | **Lead / UI Engineer** | Framework Architecture, Maven/Allure setup, POM design, and **all 10 UI Test Cases**. |
-| **Mate** | **API Architect** | Base API configuration, RestAssured Request utilities, and **API Test Cases 3 & 4**. |
-| **Javid** | **API Automation** | Implementation of **8 API Test Cases** and endpoint validation logic. |
+| **Mate Tabatadze** | **API Architect** | Base API configuration, RestAssured Request utilities, and **API Test Cases 3 & 4**. |
+| **Javid Mamedovi** | **API Automation Logic** | Implementation of **8 API Test Cases** and endpoint validation logic. |
 
 ---
 
@@ -42,3 +42,10 @@ The project is structured using the **Page Object Model (POM)** to separate the 
 To run the full suite (UI + API) in parallel:
 ```bash
 mvn clean test
+```
+
+### 2. See Results
+To view results use this two cmd:
+```bash
+mvn allure:report
+mvn allure:serve
