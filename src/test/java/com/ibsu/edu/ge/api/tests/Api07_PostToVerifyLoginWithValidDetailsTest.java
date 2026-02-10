@@ -19,7 +19,6 @@ public class Api07_PostToVerifyLoginWithValidDetailsTest extends BaseApiClient {
     @BeforeClass
     @Step("Create user for API 7")
     public void createUser() {
-        // უნიკალური მეილის გენერაცია (ეს კარგია, დატოვე)
         email = "api07_" + System.currentTimeMillis() + "@test.com";
 
         Response response = request()
@@ -47,7 +46,6 @@ public class Api07_PostToVerifyLoginWithValidDetailsTest extends BaseApiClient {
         // --- გამარტივებული შემოწმება ---
         Assert.assertEquals(response.statusCode(), 200, "Status code should be 200");
 
-        // Map-ის მაგივრად, პირდაპირ jsonPath-ს ვიყენებთ (უფრო გასაგებია)
         String responseCode = response.jsonPath().getString("responseCode");
         String message = response.jsonPath().getString("message");
 
@@ -68,7 +66,6 @@ public class Api07_PostToVerifyLoginWithValidDetailsTest extends BaseApiClient {
 
         Assert.assertEquals(response.statusCode(), 200, "HTTP Status should be 200");
 
-        // აქაც პირდაპირ ვიღებთ მნიშვნელობებს
         String responseCode = response.jsonPath().getString("responseCode");
         String message = response.jsonPath().getString("message");
 

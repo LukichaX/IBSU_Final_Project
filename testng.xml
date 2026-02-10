@@ -4,6 +4,7 @@
 
     <listeners>
         <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+        <listener class-name="com.ibsu.edu.ge.ui.utils.TestListener"/>
     </listeners>
 
     <test name="API Tests - Sequential" parallel="none">

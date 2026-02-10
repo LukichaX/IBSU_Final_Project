@@ -29,8 +29,8 @@ public class LoginTest extends TestBase {
         loginPage.navigateToLogin();
         registerPage.startSignup(name, email);
         registerPage.fillAllDetails(password, name, "Khirdaev");
-        registerPage.clickContinue(); // აქ ანტი-რეკლამა მუშაობს
-        loginPage.clickLogout(); // გამოვდივართ სისტემიდან
+        registerPage.clickContinue();
+        loginPage.clickLogout();
 
         // --- აქ იწყება ნამდვილი LOGIN ტესტი ---
 

@@ -12,10 +12,8 @@ public class AllureApiAttachments {
         return content;
     }
 
-    // აი აქ არის ცვლილება: მეთოდი აბრუნებს სტრინგს
     @Attachment(value = "API Response Body", type = "application/json")
     public static String attachResponse(Response response) {
-        // ვაბრუნებთ ლამაზად დაფორმატებულ JSON-ს
         return response.asPrettyString();
     }
 }

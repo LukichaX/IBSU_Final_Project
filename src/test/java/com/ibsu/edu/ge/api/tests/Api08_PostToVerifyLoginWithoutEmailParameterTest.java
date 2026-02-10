@@ -17,7 +17,7 @@ public class Api08_PostToVerifyLoginWithoutEmailParameterTest extends BaseApiCli
                 .when()
                 .post(ApiConfig.VERIFY_LOGIN)
                 .then()
-                .statusCode(200) // API 200-ს აბრუნებს, მაგრამ JSON-ში 400-ია
+                .statusCode(200)
                 .extract()
                 .asString();
 

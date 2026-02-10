@@ -44,7 +44,6 @@ public class RegisterPage extends BasePage {
     @FindBy(xpath = "//li/a[contains(text(), 'Delete Account')]") private WebElement deleteAccountBtn;
     @FindBy(css = "h2[data-qa='account-deleted']") private WebElement accountDeletedMsg;
 
-    // Google Vignette Dismiss Button (თუ რეკლამა ამოვარდა)
     @FindBy(id = "dismiss-button") private WebElement adDismissBtn;
     public boolean isEmailAlreadyExistsErrorVisible() {
         return isDisplayed(emailExistsError);
@@ -92,7 +91,6 @@ public class RegisterPage extends BasePage {
         return getText(accountCreatedMsg);
     }
 
-    // --- აი აქ არის ცვლილება! ---
     public void clickContinue() {
         click(continueBtn);
 
@@ -102,8 +100,6 @@ public class RegisterPage extends BasePage {
             if (driver.getCurrentUrl().contains("#google_vignette")) {
                 System.out.println("⚠️ Google Vignette Ad detected! Refreshing to bypass...");
                 driver.navigate().refresh();
-
-                // Refresh-ის შემდეგ "Continue" ღილაკი ისევ უნდა გამოჩნდეს,
                 // ან პირდაპირ გადაგვიყვანს, ამიტომ კიდევ ერთხელ ვცადოთ დაჭერა
                 click(continueBtn);
             }

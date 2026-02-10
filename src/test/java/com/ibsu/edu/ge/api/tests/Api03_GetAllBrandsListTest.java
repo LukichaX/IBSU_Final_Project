@@ -20,7 +20,6 @@ public class Api03_GetAllBrandsListTest extends BaseApiClient {
                 .extract()
                 .asString();
 
-        // ვიყენებთ მშობლის მეთოდს
         JsonPath json = JsonPath.from(extractJson(raw));
 
         Assert.assertEquals(json.getInt("responseCode"), 200, "Response Code mismatch");

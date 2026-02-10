@@ -20,7 +20,6 @@ public abstract class BaseApiClient {
                 .relaxedHTTPSValidation();
     }
 
-    // --- ახალი დამხმარე მეთოდი ---
     // ეს ასუფთავებს JSON-ს HTML ტეგებისგან (რადგან საიტი ცუდად აბრუნებს პასუხს)
     protected String extractJson(String rawResponse) {
         if (rawResponse == null) return "";

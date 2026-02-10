@@ -13,48 +13,36 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class BasePage {
+
     protected WebDriver driver;
     protected WebDriverWait wait;
     protected Actions actions;
+    protected JavascriptExecutor js; // <--- ეს აკლდა!
 
     public BasePage() {
         this.driver = DriverFactory.getDriver();
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         this.actions = new Actions(driver);
+        this.js = (JavascriptExecutor) driver;
         PageFactory.initElements(driver, this);
     }
 
-    // --- უნივერსალური Click (Smart Logic) ---
-    protected void click(WebElement element) {
-        try {
-            // 1. მივიტანოთ ელემენტთან (Scroll)
-            actions.scrollToElement(element).perform();
-        } catch (Exception e) {
-            // Fallback Scroll
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
-        }
 
+    protected void click(WebElement element) {
+        wait.until(ExpectedConditions.elementToBeClickable(element));
         try {
-            // 2. ცდა: ჩვეულებრივი Selenium Click
-            wait.until(ExpectedConditions.elementToBeClickable(element)).click();
+            element.click();
         } catch (Exception e) {
-            // 3. მარცხი: რეკლამა ეფარება? -> JS Click!
+            // თუ ჩვეულებრივმა click-მა არ იმუშავა, ვიყენებთ JS Click-ს
             System.out.println("⚠️ Click Intercepted. Using JS Click force...");
-            JavascriptExecutor js = (JavascriptExecutor) driver;
             js.executeScript("arguments[0].click();", element);
         }
     }
 
-    // --- უნივერსალური SendKeys ---
     protected void sendKeys(WebElement element, String text) {
-        try {
-            wait.until(ExpectedConditions.visibilityOf(element)).clear();
-            element.sendKeys(text);
-        } catch (Exception e) {
-            // Fallback: JS Focus & Send
-            ((JavascriptExecutor) driver).executeScript("arguments[0].focus();", element);
-            element.sendKeys(text);
-        }
+        wait.until(ExpectedConditions.visibilityOf(element));
+        element.clear();
+        element.sendKeys(text);
     }
 
     protected String getText(WebElement element) {
@@ -64,7 +52,6 @@ public class BasePage {
 
     protected boolean isDisplayed(WebElement element) {
         try {
-            // აქ wait გვინდა, რომ დავრწმუნდეთ ელემენტის არსებობაში
             wait.until(ExpectedConditions.visibilityOf(element));
             return element.isDisplayed();
         } catch (Exception e) {
@@ -72,14 +59,8 @@ public class BasePage {
         }
     }
 
-    // Select (Dropdown) დამხმარე მეთოდი
     protected void selectByVisibleText(WebElement element, String text) {
-        // Select-ს ხანდახან სჭირდება სქროლი
-        try {
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
-            new Select(element).selectByVisibleText(text);
-        } catch (Exception e) {
-            new Select(element).selectByVisibleText(text);
-        }
+        wait.until(ExpectedConditions.visibilityOf(element));
+        new Select(element).selectByVisibleText(text);
     }
 }

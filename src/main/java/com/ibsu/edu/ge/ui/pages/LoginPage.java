@@ -14,10 +14,10 @@ public class LoginPage extends BasePage {
     @FindBy(css = "div.signup-form h2")
     private WebElement signupHeader; // "New User Signup!"
 
-    @FindBy(css = "div.login-form h2") // შევცვალე უფრო ზუსტი სელექტორით
+    @FindBy(css = "div.login-form h2")
     private WebElement loginHeader; // "Login to your account"
 
-    // --- Login Form Elements (ახალი) ---
+    // --- Login Form Elements ---
     @FindBy(css = "input[data-qa='login-email']")
     private WebElement loginEmailInput;
 
@@ -66,5 +66,17 @@ public class LoginPage extends BasePage {
     @Step("სისტემიდან გამოსვლა")
     public void clickLogout() {
         click(logoutBtn);
+
+        try {
+            if (driver.getCurrentUrl().contains("#google_vignette")) {
+                System.out.println("⚠️ Google Vignette detected on Logout! Refreshing...");
+                driver.navigate().refresh();
+
+                if (isDisplayed(logoutBtn)) {
+                    click(logoutBtn);
+                }
+            }
+        } catch (Exception e) {
+        }
     }
 }

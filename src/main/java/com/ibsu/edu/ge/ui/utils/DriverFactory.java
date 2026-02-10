@@ -14,8 +14,6 @@ public class DriverFactory {
         if (driver.get() == null) {
             ChromeOptions options = new ChromeOptions();
 
-            // --- სტაბილურობის გარანტები ---
-             // დიდი ეკრანი
             options.addArguments("--start-maximized");
             options.addArguments("--disable-popup-blocking");
             options.addArguments("--disable-notifications");
@@ -23,7 +21,6 @@ public class DriverFactory {
 
             WebDriver localDriver = new ChromeDriver(options);
 
-            // დროები (ოდნავ გავზარდოთ, რომ ნელ ინტერნეტზე არ გავარდეს)
             localDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
             localDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
 

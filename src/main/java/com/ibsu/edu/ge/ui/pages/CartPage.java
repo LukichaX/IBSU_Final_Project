@@ -1,53 +1,48 @@
 package com.ibsu.edu.ge.ui.pages;
 
 import io.qameta.allure.Step;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class CartPage extends BasePage {
 
-    @FindBy(xpath = "//tbody/tr")
-    private List<WebElement> cartRows;
+    @FindBy(css = "li.active") private WebElement activeBreadcrumb;
+    @FindBy(css = "a.check_out") private WebElement proceedToCheckoutBtn;
+    @FindBy(id = "cart_info") private WebElement cartInfoTable;
 
-    @FindBy(xpath = "//li[contains(text(), 'Shopping Cart')]")
-    private WebElement breadcrumb;
+    // წაშლის ღილაკი
+    @FindBy(css = "a.cart_quantity_delete") private WebElement deleteProductBtn;
 
-    // --- ახალი ღილაკები ---
-    @FindBy(css = "a.check_out")
-    private WebElement proceedToCheckoutBtn;
+    // რაოდენობის ღილაკი (სადაც წერია რამდენი ცალია)
+    @FindBy(css = "td.cart_quantity button") private WebElement productQuantityBtn;
 
-    // ეს ის ლინკია, რომელიც მოდალში გამოდის: "Register / Login"
-    @FindBy(xpath = "//u[contains(text(), 'Register / Login')]")
-    private WebElement registerLoginModalLink;
+    // --- Methods ---
 
-
-    @Step("შემოწმება: ჩანს თუ არა კალათის გვერდი")
+    @Step("შემოწმება: ვართ თუ არა კალათაში")
     public boolean isCartPageVisible() {
-        return isDisplayed(breadcrumb);
+        return getText(activeBreadcrumb).contains("Shopping Cart");
     }
 
-    @Step("Proceed to Checkout-ზე დაჭერა")
+    @Step("Checkout-ზე გადასვლა")
     public void clickProceedToCheckout() {
         click(proceedToCheckoutBtn);
     }
 
-    @Step("მოდალში 'Register / Login'-ზე დაჭერა")
-    public void clickRegisterLoginLink() {
-        click(registerLoginModalLink);
+    @Step("პროდუქტის წაშლა კალათიდან")
+    public void deleteProduct() {
+        click(deleteProductBtn);
+        wait.until(ExpectedConditions.invisibilityOf(deleteProductBtn));
     }
 
-    @Step("კალათაში პროდუქტების რაოდენობის გაგება")
-    public int getCartItemsCount() {
-        return cartRows.size();
+    @Step("შემოწმება: კალათა ცარიელია")
+    public boolean isCartEmpty() {
+        return driver.findElements(By.cssSelector("a.cart_quantity_delete")).isEmpty();
     }
 
-    @Step("კალათაში კონკრეტული პროდუქტის შემოწმება")
-    public boolean verifyProductDetails(String productName, String price, int rowIndex) {
-        if (cartRows.size() <= rowIndex) return false;
-        WebElement row = cartRows.get(rowIndex);
-        String rowText = row.getText();
-        return rowText.contains(productName) && rowText.contains(price);
+    @Step("რაოდენობის წაკითხვა კალათიდან")
+    public String getProductQuantity() {
+        return getText(productQuantityBtn);
     }
 }

@@ -6,35 +6,28 @@ import org.openqa.selenium.support.FindBy;
 
 public class CheckoutPage extends BasePage {
 
-    @FindBy(xpath = "//ul[@id='address_delivery']")
-    private WebElement deliveryAddressBlock;
+    @FindBy(xpath = "//h2[contains(text(), 'Address Details')]")
+    private WebElement addressDetailsHeader;
 
-    @FindBy(xpath = "//ul[@id='address_invoice']")
-    private WebElement billingAddressBlock;
+    @FindBy(xpath = "//h2[contains(text(), 'Review Your Order')]")
+    private WebElement reviewOrderHeader;
 
     @FindBy(css = "textarea[name='message']")
-    private WebElement commentInput;
+    private WebElement commentArea;
 
     @FindBy(css = "a[href='/payment']")
     private WebElement placeOrderBtn;
 
+    // --- Methods ---
 
-    @Step("შემოწმება: ჩანს თუ არა მისამართის ბლოკი")
-    public boolean isAddressDetailsVisible() {
-        return isDisplayed(deliveryAddressBlock) && isDisplayed(billingAddressBlock);
+    @Step("შემოწმება: ჩანს თუ არა მისამართი და ორდერი")
+    public boolean isCheckoutPageVisible() {
+        return isDisplayed(addressDetailsHeader) && isDisplayed(reviewOrderHeader);
     }
 
-    @Step("კომენტარის დაწერა და შეკვეთის განთავსება")
-    public void enterCommentAndPlaceOrder(String comment) {
-        sendKeys(commentInput, comment);
+    @Step("კომენტარის დაწერა და ორდერის განთავსება")
+    public void placeOrder(String comment) {
+        sendKeys(commentArea, comment);
         click(placeOrderBtn);
-
-        // რეკლამის დაზღვევა
-        try {
-            if (driver.getCurrentUrl().contains("#google_vignette")) {
-                driver.navigate().refresh();
-                click(placeOrderBtn);
-            }
-        } catch (Exception e) {}
     }
 }

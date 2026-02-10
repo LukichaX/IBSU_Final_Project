@@ -48,6 +48,5 @@ public class RegisterTest extends TestBase { // აუცილებელი�
         Assert.assertEquals(registerPage.getAccountDeletedMessage(), "ACCOUNT DELETED!");
         registerPage.clickContinue();
 
-        // ბრაუზერის დახურვა არ გვჭირდება, TestBase @AfterMethod იზამს ამას
     }
 }
